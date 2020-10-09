@@ -38,8 +38,11 @@ services:
   metricbeat:
     image: docker.elastic.co/beats/metricbeat-oss:7.9.2
     container_name: metricbeat
-#    volumes:
-#      - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml"
+    ports:
+      - "9201:9201"
+    volumes:
+      - "./config/metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro"
+      - "./config/metricbeat/modules.d/:/usr/share/metricbeat/modules.d/:ro"
     networks:
       - prometheus-network
 
