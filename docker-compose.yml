@@ -88,15 +88,15 @@ services:
     networks:
       - prometheus-network
 
-  dejavu:
-    image: appbaseio/dejavu
-    container_name: dejavu
-    ports:
-      - "1358:1358"
-    depends_on:
-      - elasticsearch
-    networks:
-      - prometheus-network
+#  dejavu:
+#    image: appbaseio/dejavu
+#    container_name: dejavu
+#    ports:
+#      - "1358:1358"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - prometheus-network
 
   elasticsearch-head:
     image: mobz/elasticsearch-head:5
