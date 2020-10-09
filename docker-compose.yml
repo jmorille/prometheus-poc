@@ -1,0 +1,72 @@
+version: "3.3"
+services:
+
+#  portal:
+#    image: httpd
+#    container_name: portal
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - "./config/portal/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+#    networks:
+#      - prometheus-network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./config/prometheus/rules/:/etc/prometheus/rules/"
+#      - "./data/prometheus/:/data/prometheus/"
+#    command: "--config.file=/etc/prometheus/prometheus.yml"
+#    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/data/prometheus/"
+    networks:
+      - prometheus-network
+
+#  alertmanager:
+#    image: prom/alertmanager
+#    container_name: alertmanager
+#    ports:
+#      - "9093:9093"
+#    volumes:
+#      - "./config/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml"
+#    networks:
+#      - prometheus-network
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat-oss:7.9.2
+    container_name: metricbeat
+#    volumes:
+#      - "./metricbeat/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml"
+    networks:
+      - prometheus-network
+
+
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.2
+#    container_name: elasticsearch
+#    environment:
+#      discovery.type: "single-node"
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    networks:
+#      - prometheus-network
+#
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana-oss:7.9.2
+#    container_name: kibana
+#    ports:
+#      - "5601:5601"
+#    environment:
+#      ELASTICSEARCH_URL: 'http://elasticsearch:9200'
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - prometheus-network
+
+networks:
+  prometheus-network:
+    driver: bridge

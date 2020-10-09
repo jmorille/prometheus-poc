@@ -1,0 +1,28 @@
+global:
+  smtp_smarthost: 'smtp.sendgrid.net:587'
+  smtp_auth_username: 'azure_33c5f8d5e1b6f17f5730a973d3a3c790@azure.com'
+  smtp_auth_password: '66by3HlrlA8LcTy2lY5B'
+  smtp_from: 'alertmanager@azure.com'
+
+route:
+  receiver: 'team-mails'
+  group_wait: 1s
+  group_interval: 1s
+  repeat_interval: 1h
+  routes:
+    - receiver: 'team-mails'
+      continue: true
+    - receiver: 'jira-sarauth'
+
+receivers:
+  - name: 'team-mails'
+    email_configs:
+      - to: 'webdev.blf@groupagrica.com'
+      - to: 'prod-exploitation.blf@groupagrica.com'
+      - to: 'aisc.blf@groupagrica.com'
+      - to: 'perard.guillaume@groupagrica.com'
+      - to: 'auschitzky.olivier@groupagrica.com'
+  - name: 'jira-sarauth'
+    webhook_configs:
+      - url: 'http://jiralert:9097/alert'
+        send_resolved: false

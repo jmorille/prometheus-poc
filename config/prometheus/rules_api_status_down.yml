@@ -1,0 +1,11 @@
+groups:
+  - name: ApiStatusDown
+    rules:
+      - alert: ApiStatusDown
+        expr: api_status_up == 0
+        for: 0s
+        labels:
+          severity: warning
+        annotations:
+          summary: "API Status down (instance {{ $labels.instance }})"
+          description: "API Status down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
